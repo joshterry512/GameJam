@@ -166,18 +166,18 @@ public class Player : MonoBehaviour
         //Set sprite's facing direction
         if (velocity.x > 0) //facing right
         {
-            renderer.flipX = false;
+            renderer.flipX = true;
         }
         else
         if (velocity.x < 0) //facing left
         {
-            renderer.flipX = true;
+            renderer.flipX = false;
         }
 
         animator.SetFloat("speedX", Mathf.Abs(velocity.x));
         animator.SetFloat("speedY", Mathf.Abs(velocity.y));
 
-        animator.SetBool("isGrounded", controller.collisions.below);
+        animator.SetBool("Grounded", controller.collisions.below);
     }
 
     //Tweak: adding a damage function just to showcase the functionality of the objects that causes damage
