@@ -65,3 +65,6 @@ TagManager:
   - name: PlatformBottom
     uniqueID: 3544112767
     locked: 0
+  - name: Actual Background
+    uniqueID: 2524758567
+    locked: 0
