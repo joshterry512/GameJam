@@ -10,6 +10,7 @@ public class DashMove : MonoBehaviour
     public float startDashTime;
     private int direction;
 
+    private Player player;
 
     // Start is called before the first frame update
     void Start()
@@ -22,17 +23,11 @@ public class DashMove : MonoBehaviour
     void Update()
     {
         if(direction == 0) {
-            if(Input.GetKeyDown(KeyCode.LeftArrow)) {
+            if(player.velocity.x < 0) {
                 direction = 1;
             }
-            else if(Input.GetKeyDown(KeyCode.RightArrow)) {
+            else if(player.velocity.x > 0) {
                 direction = 2;
-            }
-            else if(Input.GetKeyDown(KeyCode.UpArrow)) {
-                direction = 3;
-            }
-            else if(Input.GetKeyDown(KeyCode.DownArrow)) {
-                direction = 4;
             }
         }
         else {
@@ -48,12 +43,6 @@ public class DashMove : MonoBehaviour
                 }
                 else if(direction == 2 && Input.GetKeyDown(KeyCode.C)) {
                     rigidBody.velocity = Vector2.right * dashSpeed;
-                }
-                else if(direction == 3 && Input.GetKeyDown(KeyCode.C)) {
-                    rigidBody.velocity = Vector2.up * dashSpeed;
-                }
-                else if(direction == 4 && Input.GetKeyDown(KeyCode.C)) {
-                    rigidBody.velocity = Vector2.down * dashSpeed;
                 }
             }
 
