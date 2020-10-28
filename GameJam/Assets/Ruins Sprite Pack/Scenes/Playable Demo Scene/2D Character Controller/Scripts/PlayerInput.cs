@@ -7,6 +7,7 @@ public class PlayerInput : MonoBehaviour {
     public float dashSpeed;
     private float dashTime;
     public float startDashTime;
+	
 	 private int direction;
 	Player player;
 	public Animator animator;
@@ -18,8 +19,9 @@ public class PlayerInput : MonoBehaviour {
 
 	void Update () {
 		Vector2 directionalInput = new Vector2 (Input.GetAxisRaw ("Horizontal"), Input.GetAxisRaw ("Vertical"));
-		player.SetDirectionalInput (directionalInput);
 		Dash();
+		player.SetDirectionalInput (directionalInput);
+
 		if (Input.GetKeyDown (KeyCode.Z)) {
 			player.OnJumpInputDown (1);
 		}
