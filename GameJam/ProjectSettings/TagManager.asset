@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
 --- !u!78 &1
@@ -65,3 +66,5 @@ TagManager:
   - name: PlayerArea
     uniqueID: 881489083
     locked: 0
+
+
