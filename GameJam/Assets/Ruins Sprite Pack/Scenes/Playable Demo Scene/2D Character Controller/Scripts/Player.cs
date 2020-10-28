@@ -173,7 +173,7 @@ public class Player : MonoBehaviour
         {
             renderer.flipX = true;
         }
-
+    
         animator.SetFloat("speedX", Mathf.Abs(velocity.x));
         animator.SetFloat("speedY", Mathf.Abs(velocity.y));
 
