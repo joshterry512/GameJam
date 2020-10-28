@@ -26,10 +26,9 @@ public class PlayerInput : MonoBehaviour {
               Attack();
         }
 	}
-	void Attack() {
-        // play an attack animation
+    void Attack() =>
+        // play an attack 
         animator.SetTrigger("Attack");
-        // Detect enemies in range of attack
-        // damage the enemies
-    }
+		// Detect enemies in range of attack
+		// damage the enemies
 }
