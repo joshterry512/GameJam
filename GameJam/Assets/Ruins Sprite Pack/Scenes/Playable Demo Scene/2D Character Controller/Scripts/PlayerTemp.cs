@@ -166,12 +166,12 @@ public class Player : MonoBehaviour
         //Set sprite's facing direction
         if (velocity.x > 0) //facing right
         {
-            renderer.flipX = false;
+            renderer.flipX = true;
         }
         else
         if (velocity.x < 0) //facing left
         {
-            renderer.flipX = true;
+            renderer.flipX = false;
         }
 
         animator.SetFloat("speedX", Mathf.Abs(velocity.x));
