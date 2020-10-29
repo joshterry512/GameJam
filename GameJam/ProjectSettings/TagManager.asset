@@ -14,8 +14,8 @@ TagManager:
   - 
   - 
   - PlayerLayer
-  - 
-  - 
+  - UI BackGround
+  - UI
   - 
   - 
   - 
@@ -38,6 +38,9 @@ TagManager:
   - 
   - 
   m_SortingLayers:
+  - name: Default
+    uniqueID: 0
+    locked: 0
   - name: Clouds
     uniqueID: 3686556057
     locked: 0
@@ -46,9 +49,6 @@ TagManager:
     locked: 0
   - name: Background
     uniqueID: 1140425935
-    locked: 0
-  - name: Default
-    uniqueID: 0
     locked: 0
   - name: Buildings
     uniqueID: 4097355333
@@ -64,4 +64,10 @@ TagManager:
     locked: 0
   - name: PlayerArea
     uniqueID: 881489083
+    locked: 0
+  - name: UI BackGround
+    uniqueID: 2490054987
+    locked: 0
+  - name: UI
+    uniqueID: 1001395695
     locked: 0
