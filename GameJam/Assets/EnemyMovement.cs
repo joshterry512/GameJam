@@ -8,6 +8,7 @@ public class EnemyMovement : MonoBehaviour
     Animator animator;
     public Transform enemyAttackPoint;
 	public float enemyAttackRange = 0.5f;
+    public float aiPeripheral = 20f;
 
     public int enemyAttackDamage = 30;
     public LayerMask playerLayers;
@@ -15,6 +16,7 @@ public class EnemyMovement : MonoBehaviour
 
     public float speed;
 
+    bool aiEnabled;
     private Transform target;
     float nextAttackTime = 0f;
     bool receivedDamage = false;
@@ -28,10 +30,13 @@ public class EnemyMovement : MonoBehaviour
         target = GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>();
         animator = GetComponent<Animator>();
         renderer = GetComponent<SpriteRenderer>();
+        aiEnabled = false;
     }
 
     void Update() {
-        if(Vector2.Distance(transform.position, target.position) > 2    ) {
+        aiEnabled = Physics2D.OverlapCircleAll(enemyAttackPoint.position, aiPeripheral, playerLayers).Length != 0; 
+
+        if(Vector2.Distance(transform.position, target.position) > 2 && aiEnabled) {
             transform.position = Vector2.MoveTowards(transform.position, target.position, speed * Time.deltaTime);
         }
         if(Time.time >= nextAttackTime) {
