@@ -8,20 +8,9 @@ public class PlayerInput : MonoBehaviour {
     float nextAttackTime = 0f;
 	void Start () {
 		player = GetComponent<PlayerFinal> ();
-	
 	}
 
 	void Update () {
-		Vector2 directionalInput = new Vector2 (Input.GetAxisRaw ("Horizontal"), Input.GetAxisRaw ("Vertical"));
-		//player.SetDirectionalInput (directionalInput);
-       
-
-		if (Input.GetKeyDown (KeyCode.Z)) {
-			//player.OnJumpInputDown (1);
-		}
-		if (Input.GetKeyUp (KeyCode.Z)) {
-		//	player.OnJumpInputUp();
-		}
 		if(Time.time >= nextAttackTime) {
 			if (Input.GetKeyDown(KeyCode.X))
 			{

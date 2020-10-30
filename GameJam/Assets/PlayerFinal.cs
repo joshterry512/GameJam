@@ -88,7 +88,7 @@ public class PlayerFinal : MonoBehaviour
          Gizmos.DrawWireSphere(groundCheck.position, checkRadius);
      }
      IEnumerator DashRoutine(float input) {
-         if(Input.GetKeyDown(KeyCode.C) && isGrounded && input != 0) {
+         if(Input.GetKeyDown(KeyCode.C)  && input != 0) {
             isDashing = true;
             animator.SetBool("isDash", true);
             currentDashTimer = startDashTimer;
