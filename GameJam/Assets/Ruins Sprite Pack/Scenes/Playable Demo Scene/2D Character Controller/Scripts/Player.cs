@@ -23,7 +23,7 @@ public class Player : MonoBehaviour
     float gravity;
     float maxJumpVelocity;
     float minJumpVelocity;
-    Vector3 velocity;
+    public Vector3 velocity;
     float velocityXSmoothing;
 
     Controller2D controller;
@@ -166,14 +166,14 @@ public class Player : MonoBehaviour
         //Set sprite's facing direction
         if (velocity.x > 0) //facing right
         {
-            renderer.flipX = true;
+            renderer.flipX = false;
         }
         else
         if (velocity.x < 0) //facing left
         {
-            renderer.flipX = false;
+            renderer.flipX = true;
         }
-
+    
         animator.SetFloat("speedX", Mathf.Abs(velocity.x));
         animator.SetFloat("speedY", Mathf.Abs(velocity.y));
 
