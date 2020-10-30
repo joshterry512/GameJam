@@ -41,6 +41,7 @@ public class PlayerFinal : MonoBehaviour
         animator = GetComponent<Animator>();
         renderer = GetComponent<SpriteRenderer>();
         currentHealth = maxHealth;
+        rigidbody.mass = 15f;
     }
 
     // Update is called once per frame
@@ -48,25 +49,8 @@ public class PlayerFinal : MonoBehaviour
     {
         float input = Input.GetAxisRaw("Horizontal");
         rigidbody.velocity = new Vector2(input * speed, rigidbody.velocity.y);
-
-        if(Input.GetKeyDown(KeyCode.C) && !isGrounded && input != 0) {
-            isDashing = true;
-            animator.SetBool("isDash", true);
-            currentDashTimer = startDashTimer;
-            rigidbody.velocity = Vector2.zero;
-            dashDirection = (int) input;
-        }
-        if(isDashing) {
-            rigidbody.velocity = transform.right * dashDirection * dashForce;
-
-            currentDashTimer -= Time.deltaTime;
-
-            if(currentDashTimer <= 0) {
-                animator.SetBool("isDash", false);
-                isDashing = false;
-            }
-        }
-        if(input != 0) {
+        StartCoroutine(DashRoutine(input));        
+        if(input != 0 && isGrounded) {
             animator.SetBool("isRunning", true);
         }
         else {
@@ -83,6 +67,7 @@ public class PlayerFinal : MonoBehaviour
 
         if(Input.GetKeyDown(KeyCode.Z) && isGrounded == true) {
             rigidbody.velocity = Vector2.up * jumpForce;
+            
         }
         isTouchingFront = Physics2D.OverlapCircle(frontCheck.position, checkRadius, whatIsGround);
         if(isTouchingFront = true && isGrounded == false && input != 0) {
@@ -102,6 +87,26 @@ public class PlayerFinal : MonoBehaviour
      void OnDrawGizmosSelected() {
          Gizmos.DrawWireSphere(groundCheck.position, checkRadius);
      }
+     IEnumerator DashRoutine(float input) {
+         if(Input.GetKeyDown(KeyCode.C) && isGrounded && input != 0) {
+            isDashing = true;
+            animator.SetBool("isDash", true);
+            currentDashTimer = startDashTimer;
+            rigidbody.velocity = Vector2.zero;
+            dashDirection = (int) input;
+        }
+        if(isDashing) {
+            rigidbody.velocity = transform.right * dashDirection * dashForce;
+
+            currentDashTimer -= Time.deltaTime;
+
+            if(currentDashTimer <= 0) {
+                animator.SetBool("isDash", false);
+                isDashing = false;
+            }
+        }
+       yield return new WaitForSeconds(0.1f); // wait a bit
+     } 
 
      public void Attack() {
         // play an attack animation

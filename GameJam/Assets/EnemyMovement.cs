@@ -31,7 +31,7 @@ public class EnemyMovement : MonoBehaviour
     }
 
     void Update() {
-        if(Vector2.Distance(transform.position, target.position) > 3) {
+        if(Vector2.Distance(transform.position, target.position) > 2    ) {
             transform.position = Vector2.MoveTowards(transform.position, target.position, speed * Time.deltaTime);
         }
         if(Time.time >= nextAttackTime) {
