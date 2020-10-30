@@ -4,13 +4,6 @@ using UnityEditor;
 [InitializeOnLoad]
 public class RateWindow : EditorWindow
 {
-    Texture2D banner;
-
-    void OnEnable()
-    {
-        banner = (Texture2D)Resources.Load("Rate Window", typeof(Texture2D));
-    }
-
     static RateWindow()
     {
         EditorApplication.update += RunOnce;
@@ -20,19 +13,17 @@ public class RateWindow : EditorWindow
     {
         EditorApplication.update -= RunOnce;
 
-        bool dontShow = EditorPrefs.GetBool("DontShowRateWindow_RuinsSpritePack");
+        bool dontShow = EditorPrefs.GetBool("DontShowRateWindow");
 
         if (!Application.isPlaying)
             if (!dontShow)
                 Init();
     }
 
-    [MenuItem("Help/Ruins Sprite Pack/Rate Window")]
+    [MenuItem("Forest Parallax Backgrounds/RateWindow")]
     public static RateWindow Init()
     {
         RateWindow window = EditorWindow.GetWindow<RateWindow>(true, "Thank you!", true);
-        window.minSize = new Vector2(400, 420);
-        window.maxSize = new Vector2(400, 420);
         return window;
     }
 
@@ -51,14 +42,8 @@ public class RateWindow : EditorWindow
         bodyStyle.alignment = TextAnchor.UpperLeft;
         bodyStyle.richText = true;
 
-        GUIStyle bannerStyle = new GUIStyle();
-        bannerStyle.fixedWidth = 400;
-        bannerStyle.fixedHeight = 200;
-
-        GUILayout.Box(banner, bannerStyle);
-
-        string titleText = "Hey! Thanks for acquiring the Ruins Sprite Pack!";
-        string bodyText = "Just wanted to ask you to spare a few seconds to give a rating to the Ruins Sprite Pack on the store. It will help tremendously to support further development of the package.\n\n" +
+        string titleText = "Hey! Thanks for acquiring the Forest Parallax Backgrounds!";
+        string bodyText = "Just wanted to ask you to spare a few seconds to give a rating to the Forest Parallax Backgrounds on the store. It will help tremendously to support further development of the package.\n\n" +
                           "Thanks again! \n";
 
         GUILayout.Label(titleText, titleStyle);
@@ -71,9 +56,9 @@ public class RateWindow : EditorWindow
 
         Color col = GUI.color;
         GUI.backgroundColor *= Color.green;
-        if (GUILayout.Button("Rate Ruins Sprite Pack!", GUILayout.Height(30), GUILayout.MaxWidth(300)))
+        if (GUILayout.Button("Rate Forest Parallax Backgrounds!", GUILayout.Height(30), GUILayout.MaxWidth(300)))
         {
-            Application.OpenURL("http://u3d.as/1Day");
+            Application.OpenURL("http://u3d.as/YMT");
         }
         GUI.backgroundColor = col;
 
@@ -92,7 +77,7 @@ public class RateWindow : EditorWindow
 
     void SavePreference()
     {
-        EditorPrefs.SetBool("DontShowRateWindow_RuinsSpritePack", dontShowAgain);
+        EditorPrefs.SetBool("DontShowRateWindow", dontShowAgain);
     }
 
 }
