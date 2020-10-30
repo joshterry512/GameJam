@@ -14,8 +14,8 @@ TagManager:
   - 
   - 
   - PlayerLayer
-  - 
-  - 
+  - UI BackGround
+  - UI
   - 
   - 
   - 
@@ -64,4 +64,10 @@ TagManager:
     locked: 0
   - name: PlayerArea
     uniqueID: 881489083
+    locked: 0
+  - name: UI BackGround
+    uniqueID: 2490054987
+    locked: 0
+  - name: UI
+    uniqueID: 1001395695
     locked: 0
