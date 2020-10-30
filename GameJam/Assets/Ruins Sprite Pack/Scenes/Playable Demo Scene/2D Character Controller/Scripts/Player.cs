@@ -12,6 +12,9 @@ public class Player : MonoBehaviour
     public float accelerationTimeGrounded = .1f;
     public float moveSpeed = 6;
 
+    public float dashForce;
+    public float startDashTimer;
+
     public Vector2 wallJumpClimb;
     public Vector2 wallJumpOff;
     public Vector2 wallLeap;
@@ -26,10 +29,16 @@ public class Player : MonoBehaviour
     public Vector3 velocity;
     float velocityXSmoothing;
 
+    float currentDashTimer;
+    float dashDirection;
+
     Controller2D controller;
+    Rigidbody2D rigidBody;
 
     Vector2 directionalInput;
     bool wallSliding;
+    bool isDashing;
+    bool isGrounded;
     int wallDirX;
 
     Animator animator;
@@ -40,6 +49,7 @@ public class Player : MonoBehaviour
         controller = GetComponent<Controller2D>();
         animator = GetComponent<Animator>();
         renderer = GetComponent<SpriteRenderer>();
+        rigidBody = GetComponent<Rigidbody2D>();
 
         gravity = -(2 * maxJumpHeight) / Mathf.Pow(timeToJumpApex, 2);
         maxJumpVelocity = Mathf.Abs(gravity) * timeToJumpApex;
@@ -50,7 +60,7 @@ public class Player : MonoBehaviour
     {
         CalculateVelocity();
         HandleWallSliding();
-
+        handleDashing();
         controller.Move(velocity * Time.deltaTime, directionalInput);
 
         if (controller.collisions.above || controller.collisions.below)
@@ -66,6 +76,26 @@ public class Player : MonoBehaviour
         }
     }
 
+    public void handleDashing() {
+        
+        if(Input.GetKeyDown(KeyCode.C)) {
+            isDashing = true;
+            animator.SetBool("isDash", true);
+            currentDashTimer = startDashTimer;
+            rigidBody.velocity = Vector2.zero;
+            dashDirection =  (controller.collisions.left) ? -1 : 1;
+        }
+        if(isDashing) {
+            rigidBody.velocity = transform.right * dashDirection * dashForce;
+
+            currentDashTimer -= Time.deltaTime;
+
+            if(currentDashTimer <= 0) {
+                animator.SetBool("isDash", false);
+                isDashing = false;
+            }
+        }
+    }
     public void SetDirectionalInput(Vector2 input)
     {
         directionalInput = input;
@@ -177,7 +207,7 @@ public class Player : MonoBehaviour
         animator.SetFloat("speedX", Mathf.Abs(velocity.x));
         animator.SetFloat("speedY", Mathf.Abs(velocity.y));
 
-        animator.SetBool("Grounded", controller.collisions.below);
+        animator.SetBool("isGrounded", controller.collisions.below);
     }
 
     //Tweak: adding a damage function just to showcase the functionality of the objects that causes damage
