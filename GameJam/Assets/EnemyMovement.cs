@@ -51,7 +51,7 @@ public class EnemyMovement : MonoBehaviour
         ReceiveDamage(damage);
         if(currentHealth <= 0) {
             renderer.color = Color.red;
-            Die();
+            StartCoroutine(Die());
         }
     }
     IEnumerator AttackRoutine ()
@@ -73,14 +73,16 @@ public class EnemyMovement : MonoBehaviour
         }
         Gizmos.DrawWireSphere(enemyAttackPoint.position, enemyAttackRange);
     }
-    void Die() {
-        Debug.Log("Enemy died");
-     
+    WaitForSeconds pleaseWait = new WaitForSeconds(0.8f);
+    IEnumerator Die() {
+        Debug.Log("enemy is dead");
+        animator.SetBool("isDead", true);
+        yield return pleaseWait;
+        this.enabled = false;
         GetComponent<Collider2D>().enabled = false;
         GetComponent<SpriteRenderer>().enabled = false;
-        this.enabled = false;
-        Destroy(gameObject);
-        // die animation or disable the enemy
+        yield return null;
+       
     }
 
      //Tweak: adding a damage function just to showcase the functionality of the objects that causes damage

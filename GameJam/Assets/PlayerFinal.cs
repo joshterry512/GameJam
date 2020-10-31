@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerFinal : MonoBehaviour
 {
@@ -31,10 +32,18 @@ public class PlayerFinal : MonoBehaviour
     public Transform attackPoint;
 	public float attackRange = 0.5f;
     public LayerMask enemyLayers;
+
+    bool wallJumping;
+    bool isDead;
+    public float xWallForce;
+    public float yWallForce;
+    public float wallJumpTime;
+    
     
     Animator animator;
     SpriteRenderer renderer;
     // Start is called before the first frame update
+
     void Start()
     {
         rigidbody = GetComponent<Rigidbody2D>();
@@ -67,25 +76,42 @@ public class PlayerFinal : MonoBehaviour
 
         if(Input.GetKeyDown(KeyCode.Z) && isGrounded == true) {
             rigidbody.velocity = Vector2.up * jumpForce;
-            
         }
         isTouchingFront = Physics2D.OverlapCircle(frontCheck.position, checkRadius, whatIsGround);
-        if(isTouchingFront = true && isGrounded == false && input != 0) {
+        if(isTouchingFront == true && isGrounded == false && input != 0) {
+            animator.SetBool("isWallSliding", true);
             wallSliding = true;
         }
         else {
+             animator.SetBool("isWallSliding", false);
              wallSliding = false;
         }
         if(wallSliding) {
             rigidbody.velocity = new Vector2(rigidbody.velocity.x, Mathf.Clamp(rigidbody.velocity.y, -wallSlidingSpeed, float.MaxValue));
+        }
+        if(Input.GetKeyDown(KeyCode.Z) && wallSliding == true) {
+            wallJumping = true;
+            Invoke("SetWallJumpingToFalse", wallJumpTime);
+        }
+
+        if(wallJumping == true) {
+        rigidbody.velocity = new Vector2(xWallForce * -input, yWallForce);
         }
     }
     void Flip() {
         transform.localScale = new Vector3(-transform.localScale.x, transform.localScale.y, transform.localScale.z);
         facingRight = !facingRight;
     }
+    void SetWallJumpingToFalse() {
+        wallJumping = false;
+    }
+    /*
      void OnDrawGizmosSelected() {
          Gizmos.DrawWireSphere(groundCheck.position, checkRadius);
+     }
+     */
+     void OnDrawGizmosSelected() {
+         Gizmos.DrawWireSphere(frontCheck.position, checkRadius);
      }
      IEnumerator DashRoutine(float input) {
          if(Input.GetKeyDown(KeyCode.C)  && input != 0) {
@@ -133,17 +159,24 @@ public class PlayerFinal : MonoBehaviour
         if (!receivedDamage)
             currentHealth -= damage;
             if(currentHealth <= 0) {
-                Die();
+                StartCoroutine(Die());
                 return;
             }
             StartCoroutine(DamageRoutine());
     }
     // 
-    void Die() {
+    WaitForSeconds pleaseWait = new WaitForSeconds(0.8f);
+    IEnumerator Die() {
+        animator.SetBool("isDead", true);
+        yield return pleaseWait;
         this.enabled = false;
         GetComponent<Collider2D>().enabled = false;
         GetComponent<SpriteRenderer>().enabled = false;
-        Destroy(gameObject);
+        if(enabled == false){
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex+0);
+        }
+        yield return null;
+        
     }
     WaitForSeconds wait = new WaitForSeconds(0.1f);
     IEnumerator DamageRoutine() 
@@ -173,3 +206,4 @@ public class PlayerFinal : MonoBehaviour
     }
 
 }
+
